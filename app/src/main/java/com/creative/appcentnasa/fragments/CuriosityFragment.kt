@@ -84,30 +84,3 @@ class CuriosityFragment : Fragment() {
 }
 
 
-// Inflate the layout for this fragment
-//return inflater.inflate(R.layout.fragment_curiosity, container, false)
-
-// AndroidNetworking.initialize(requireContext())
-
-//Setup Android Networking
-/* AndroidNetworking.get("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY&page=1")
-     .build()
-     .getAsJSONArray(new)
-     .getAsObject(Reqrescuriosity::class.java,
-         object : ParsedRequestListener<Reqrescuriosity> {
-             override fun onResponse(response: Reqrescuriosity) {
-val cameras: MutableList<Camera> = mutableListOf()
- cameras.add(Camera("abc",1,"abcd",1))
- myAdapter = MyAdapter(cameras)
- binding.recyclerView.adapter = myAdapter
- //cameraList.addAll(response.photos)
- myAdapter.notifyDataSetChanged()
-
-
-             }
-
-             override fun onError(anError: ANError?) {
-             Log.d("hata",anError.toString())
-             }
-
-         })*/
