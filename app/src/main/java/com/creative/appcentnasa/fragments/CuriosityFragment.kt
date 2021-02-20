@@ -16,61 +16,68 @@ import com.creative.appcentnasa.MyAdapter
 import com.creative.appcentnasa.R
 import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.databinding.FragmentCuriosityBinding
+import com.creative.appcentnasa.databinding.FragmentOpportunityBinding
 import com.creative.appcentnasa.model.Camera
+import com.creative.appcentnasa.model.NasaResponse
 import com.creative.appcentnasa.model.Reqrescuriosity
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class CuriosityFragment : Fragment() {
-    private val cameraList: MutableList<Camera> = mutableListOf()
     private lateinit var myAdapter: MyAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //setup Adapter
-
-        //Setup Recyclerview
-        binding = FragmentCuriosityBinding.inflate(layoutInflater)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                OrientationHelper.VERTICAL
-            )
-        )
-
-        val cilent = OkHttpClient.Builder().build()
-
-
-        val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .client(cilent)
-            .build()
-            .create(networkAPI::class.java)
-
-        val resp = retrofit.cameralistgetir()
-        if (resp.isSuccessful) {
-            Log.d("test",resp.body().toString())
-        }
-
-
-
-    }
-
     private lateinit var binding: FragmentCuriosityBinding
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentCuriosityBinding.inflate(layoutInflater)
 
+        val cilent = OkHttpClient.Builder().build()
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(cilent)
+            .build()
+            .create(networkAPI::class.java)
+
+        retrofit.cameralistgetir(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponse> {
+            override fun onFailure(call: Call<NasaResponse>, t: Throwable) {
+                Log.d("FAIL", t.message.toString())
+            }
+
+            override fun onResponse(call: Call<NasaResponse>, response: Response<NasaResponse>) {
+
+                val cameras: MutableList<Camera> = mutableListOf()
+                response.body()!!.photos.forEach {
+                    cameras.add(
+                        Camera(
+                            it.camera.fullName,
+                            it.camera.id,
+                            it.camera.name,
+                            it.camera.roverİd
+                        )
+                    )
+                }
+
+                myAdapter = MyAdapter(cameras)
+                binding.recyclerView.adapter = myAdapter
+                //cameraList.addAll(response.photos)
+                myAdapter.notifyDataSetChanged()
+
+            }
+        })
 
         return binding.root
     }
