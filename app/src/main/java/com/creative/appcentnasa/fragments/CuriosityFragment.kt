@@ -38,15 +38,15 @@ class CuriosityFragment : Fragment() {
         myAdapter = MyAdapter(cameraList)
         //Setup Recyclerview
         binding = FragmentCuriosityBinding.inflate(layoutInflater)
-        binding.recyclerView.layoutManager = LinearLayoutManager(activity!!)
+        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
-                activity!!,
+                activity,
                 OrientationHelper.VERTICAL
             )
         )
         binding.recyclerView.adapter = myAdapter
-        AndroidNetworking.initialize(activity!!)
+        AndroidNetworking.initialize(activity)
         //Setup Android Networking
         AndroidNetworking.get("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY&page=1")
             .build()
@@ -55,6 +55,7 @@ class CuriosityFragment : Fragment() {
                     override fun onResponse(response: Reqrescuriosity) {
                         //cameraList.addAll(response.photos)
                         myAdapter.notifyDataSetChanged()
+
                     }
 
                     override fun onError(anError: ANError?) {
