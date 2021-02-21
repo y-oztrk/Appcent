@@ -52,13 +52,13 @@ class SpiritFragment : Fragment() {
     ): View? {
 
 
-        val cilent = OkHttpClient.Builder().build()
+        val scilent = OkHttpClient.Builder().build()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(cilent)
+            .client(scilent)
             .build()
             .create(spiritNetworkApi::class.java)
 

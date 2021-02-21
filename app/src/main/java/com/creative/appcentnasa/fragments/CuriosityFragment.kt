@@ -38,11 +38,17 @@ class CuriosityFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentCuriosityBinding.inflate(layoutInflater)
-        binding.recyclerView.layoutManager=LinearLayoutManager(context)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(context,OrientationHelper.VERTICAL))
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                OrientationHelper.VERTICAL
+            )
+        )
 
     }
-//glide
+
+    //glide
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,7 +83,7 @@ class CuriosityFragment : Fragment() {
                         )
                     )
                 }
-                Log.d("SUCCESS",cameras.size.toString())
+                Log.d("SUCCESS", cameras.size.toString())
                 myAdapter = MyAdapter(cameras)
                 binding.recyclerView.adapter = myAdapter
                 //cameraList.addAll(response.photos)
