@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.model.Camera
+import com.creative.appcentnasa.model.NasaResponse
 import com.creative.appcentnasa.model.Photo
 import com.squareup.picasso.Picasso
 
@@ -23,8 +25,9 @@ class MyAdapter(private val cameraList: MutableList<Camera>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         val camera = cameraList[position]
         val cameraNameTextView = holder.itemView.findViewById<TextView>(R.id.camera_name)
-        cameraNameTextView.text=camera.fullName
+        cameraNameTextView.text = camera.fullName
         val fullName = "${camera.fullName}"
         val roverAvatarImageView = holder.itemView.findViewById<ImageView>(R.id.rover_avatar)
     }
+
 }

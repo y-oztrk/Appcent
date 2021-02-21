@@ -28,19 +28,26 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.log
 
 
 class CuriosityFragment : Fragment() {
     private lateinit var myAdapter: MyAdapter
     private lateinit var binding: FragmentCuriosityBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentCuriosityBinding.inflate(layoutInflater)
+        binding.recyclerView.layoutManager=LinearLayoutManager(context)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(context,OrientationHelper.VERTICAL))
 
-
+    }
+//glide
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCuriosityBinding.inflate(layoutInflater)
+
 
         val cilent = OkHttpClient.Builder().build()
 
@@ -54,11 +61,11 @@ class CuriosityFragment : Fragment() {
 
         retrofit.cameralistgetir(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponse> {
             override fun onFailure(call: Call<NasaResponse>, t: Throwable) {
-                Log.d("FAIL", t.message.toString())
+
             }
 
             override fun onResponse(call: Call<NasaResponse>, response: Response<NasaResponse>) {
-
+                Log.d("FAIL", response.body()!!.photos[0].imgSrc.toString())
                 val cameras: MutableList<Camera> = mutableListOf()
                 response.body()!!.photos.forEach {
                     cameras.add(
@@ -70,7 +77,7 @@ class CuriosityFragment : Fragment() {
                         )
                     )
                 }
-
+                Log.d("SUCCESS",cameras.size.toString())
                 myAdapter = MyAdapter(cameras)
                 binding.recyclerView.adapter = myAdapter
                 //cameraList.addAll(response.photos)

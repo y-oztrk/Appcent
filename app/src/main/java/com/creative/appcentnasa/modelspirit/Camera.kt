@@ -1,4 +1,4 @@
-package com.creative.appcentnasa.model
+package com.creative.appcentnasa.modelspirit
 
 
 import com.google.gson.annotations.SerializedName
@@ -12,5 +12,4 @@ data class Camera(
     val name: String,
     @SerializedName("rover_id")
     val roverİd: Int
-
 )
