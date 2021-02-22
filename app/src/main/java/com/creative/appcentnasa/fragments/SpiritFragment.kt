@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.creative.appcentnasa.MyAdapter
+import com.creative.appcentnasa.MyAdapterSpirit
 import com.creative.appcentnasa.R
 import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.`interface`.spiritNetworkApi
@@ -29,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SpiritFragment : Fragment() {
 
-    private lateinit var myAdapter: MyAdapter
+    private lateinit var myAdapter: MyAdapterSpirit
     private lateinit var binding: FragmentSpiritBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class SpiritFragment : Fragment() {
 
     }
 
-    //glide
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,10 +73,10 @@ class SpiritFragment : Fragment() {
                 response: Response<NasaResponseSpirit>
             ) {
                 Log.d("FAIL", response.body()!!.photos[0].imgSrc.toString())
-                val cameras: MutableList<Camera> = mutableListOf()
+                val cameraListSpirit: MutableList<com.creative.appcentnasa.modelspirit.Camera> = mutableListOf()
                 response.body()!!.photos.forEach {
-                    cameras.add(
-                        Camera(
+                    cameraListSpirit.add(
+                        com.creative.appcentnasa.modelspirit.Camera(
                             it.camera.fullName,
                             it.camera.id,
                             it.camera.name,
@@ -84,8 +85,8 @@ class SpiritFragment : Fragment() {
                             )
                     )
                 }
-                Log.d("SUCCESS", cameras.size.toString())
-                myAdapter = MyAdapter(cameras)
+                Log.d("SUCCESS", cameraListSpirit.size.toString())
+                myAdapter = MyAdapterSpirit(cameraListSpirit)
                 binding.recyclerView.adapter = myAdapter
                 //cameraList.addAll(response.photos)
                 myAdapter.notifyDataSetChanged()
