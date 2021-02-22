@@ -1,8 +1,7 @@
 package com.creative.appcentnasa.model
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class NasaResponse (
-    @SerializedName("photos")
     val photos: ArrayList<Photo>
-)
+) : Serializable

@@ -2,8 +2,6 @@ package com.creative.appcentnasa
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.ScriptGroup
-import androidx.viewpager.widget.ViewPager
 import com.creative.appcentnasa.databinding.ActivityMainBinding
 import com.creative.appcentnasa.fragments.CuriosityFragment
 import com.creative.appcentnasa.fragments.OpportunityFragment

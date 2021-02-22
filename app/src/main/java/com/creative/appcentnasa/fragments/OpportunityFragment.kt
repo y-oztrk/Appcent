@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.creative.appcentnasa.MyAdapter
-import com.creative.appcentnasa.R
 import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.databinding.FragmentCuriosityBinding
 import com.creative.appcentnasa.databinding.FragmentOpportunityBinding
@@ -22,36 +21,38 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class OpportunityFragment : Fragment() {
 
     private lateinit var myAdapter: MyAdapter
-    private lateinit var binding: FragmentCuriosityBinding
+    private lateinit var binding: FragmentOpportunityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentCuriosityBinding.inflate(layoutInflater)
-        binding.recyclerView.layoutManager= LinearLayoutManager(context)
+        binding = FragmentOpportunityBinding.inflate(layoutInflater)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(context,
-                OrientationHelper.VERTICAL)
+            DividerItemDecoration(
+                context,
+                OrientationHelper.VERTICAL
+            )
         )
 
     }
+
     //glide
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         val cilent = OkHttpClient.Builder().build()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(cilent)
             .build()
@@ -64,20 +65,19 @@ class OpportunityFragment : Fragment() {
 
             override fun onResponse(call: Call<NasaResponse>, response: Response<NasaResponse>) {
                 Log.d("FAIL", response.body()!!.photos[0].imgSrc.toString())
-                val cameras: MutableList<Camera> = mutableListOf()
+                val cameraslistopportunity: MutableList<Camera> = mutableListOf()
                 response.body()!!.photos.forEach {
-                    cameras.add(
+                    cameraslistopportunity.add(
                         Camera(
                             it.camera.fullName,
                             it.camera.id,
                             it.camera.name,
                             it.camera.roverİd,
-
                         )
                     )
                 }
-                Log.d("SUCCESS",cameras.size.toString())
-                myAdapter = MyAdapter(cameras)
+                Log.d("SUCCESS", cameraslistopportunity.size.toString())
+                myAdapter = MyAdapter(cameraslistopportunity)
                 binding.recyclerView.adapter = myAdapter
                 //cameraList.addAll(response.photos)
                 myAdapter.notifyDataSetChanged()

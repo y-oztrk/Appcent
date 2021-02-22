@@ -9,26 +9,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.ParsedRequestListener
 import com.creative.appcentnasa.MyAdapter
-import com.creative.appcentnasa.R
 import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.databinding.FragmentCuriosityBinding
-import com.creative.appcentnasa.databinding.FragmentOpportunityBinding
 import com.creative.appcentnasa.model.Camera
 import com.creative.appcentnasa.model.NasaResponse
-import com.creative.appcentnasa.model.Reqrescuriosity
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory.*
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
 
 
 class CuriosityFragment : Fragment() {
@@ -59,7 +52,7 @@ class CuriosityFragment : Fragment() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(cilent)
             .build()
@@ -76,9 +69,9 @@ class CuriosityFragment : Fragment() {
                 response.body()!!.photos.forEach {
                     cameras.add(
                         Camera(
-                            it.camera.fullName,
                             it.camera.id,
                             it.camera.name,
+                            it.camera.fullName,
                             it.camera.roverİd
                         )
                     )

@@ -10,27 +10,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.creative.appcentnasa.MyAdapter
-import com.creative.appcentnasa.MyAdapterSpirit
-import com.creative.appcentnasa.R
-import com.creative.appcentnasa.`interface`.networkAPI
 import com.creative.appcentnasa.`interface`.spiritNetworkApi
-import com.creative.appcentnasa.databinding.FragmentCuriosityBinding
 import com.creative.appcentnasa.databinding.FragmentSpiritBinding
 import com.creative.appcentnasa.model.Camera
 import com.creative.appcentnasa.model.NasaResponse
-import com.creative.appcentnasa.model.NasaResponseSpirit
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SpiritFragment : Fragment() {
 
-    private lateinit var myAdapter: MyAdapterSpirit
+    private lateinit var myAdapter: MyAdapter
     private lateinit var binding: FragmentSpiritBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,36 +53,35 @@ class SpiritFragment : Fragment() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(scilent)
             .build()
             .create(spiritNetworkApi::class.java)
 
-        retrofit.getcameralist(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponseSpirit> {
-            override fun onFailure(call: Call<NasaResponseSpirit>, t: Throwable) {
+        retrofit.getcameralist(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponse> {
+            override fun onFailure(call: Call<NasaResponse>, t: Throwable) {
 
             }
 
             override fun onResponse(
-                call: Call<NasaResponseSpirit>,
-                response: Response<NasaResponseSpirit>
+                call: Call<NasaResponse>,
+                response: Response<NasaResponse>
             ) {
-                Log.d("FAIL", response.body()!!.photos[0].imgSrc.toString())
-                val cameraListSpirit: MutableList<com.creative.appcentnasa.modelspirit.Camera> = mutableListOf()
+                Log.d("FAIL", response.body()!!.photos[0].imgSrc)
+                val cameraListSpirit: MutableList<Camera> = mutableListOf()
                 response.body()!!.photos.forEach {
                     cameraListSpirit.add(
-                        com.creative.appcentnasa.modelspirit.Camera(
+                        Camera(
                             it.camera.fullName,
                             it.camera.id,
                             it.camera.name,
                             it.camera.roverİd,
-
-                            )
+                        )
                     )
                 }
                 Log.d("SUCCESS", cameraListSpirit.size.toString())
-                myAdapter = MyAdapterSpirit(cameraListSpirit)
+                myAdapter = MyAdapter(cameraListSpirit)
                 binding.recyclerView.adapter = myAdapter
                 //cameraList.addAll(response.photos)
                 myAdapter.notifyDataSetChanged()

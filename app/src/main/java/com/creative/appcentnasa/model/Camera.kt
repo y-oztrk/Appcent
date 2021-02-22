@@ -2,15 +2,11 @@ package com.creative.appcentnasa.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Camera(
-    @SerializedName("full_name")
-    val fullName: String,
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("name")
+    val id: String,
     val name: String,
-    @SerializedName("rover_id")
-    val roverİd: Int
-
-)
+    @SerializedName("full_name") val fullName: String,
+    @SerializedName("rover_id") val roverİd: Int
+) : Serializable
