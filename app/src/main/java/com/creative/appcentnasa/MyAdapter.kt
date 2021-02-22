@@ -29,6 +29,7 @@ class MyAdapter(private val cameraList: MutableList<Camera>) : RecyclerView.Adap
         cameraNameTextView.text = camera.fullName
         val fullName = "${camera.fullName}"
         val roverAvatarImageView = holder.itemView.findViewById<ImageView>(R.id.rover_avatar)
+
     }
 
 }

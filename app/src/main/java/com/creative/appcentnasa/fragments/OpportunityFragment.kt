@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.creative.appcentnasa.MyAdapter
 import com.creative.appcentnasa.`interface`.networkAPI
-import com.creative.appcentnasa.databinding.FragmentCuriosityBinding
 import com.creative.appcentnasa.databinding.FragmentOpportunityBinding
 import com.creative.appcentnasa.model.Camera
 import com.creative.appcentnasa.model.NasaResponse
@@ -20,7 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -43,14 +41,16 @@ class OpportunityFragment : Fragment() {
 
     }
 
-    //glide
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         val cilent = OkHttpClient.Builder().build()
 
-        val retrofit = Retrofit.Builder()
+        val opportunityNetworkApi = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/mars-photos/api/v1/")
             .addCallAdapterFactory(create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -58,7 +58,7 @@ class OpportunityFragment : Fragment() {
             .build()
             .create(networkAPI::class.java)
 
-        retrofit.cameralistgetir(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponse> {
+        opportunityNetworkApi.cameralistgetir(100, "DEMO_KEY", 1).enqueue(object : Callback<NasaResponse> {
             override fun onFailure(call: Call<NasaResponse>, t: Throwable) {
 
             }

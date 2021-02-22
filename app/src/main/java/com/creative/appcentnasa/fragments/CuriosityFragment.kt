@@ -24,7 +24,10 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 
+
 class CuriosityFragment : Fragment() {
+
+
     private lateinit var myAdapter: MyAdapter
     private lateinit var binding: FragmentCuriosityBinding
 
