@@ -13,9 +13,8 @@ import com.squareup.picasso.Picasso
 class MyAdapterSpirit(private val spiritCameraList: MutableList<Camera>) :  RecyclerView.Adapter<MyHolder>() {
     private lateinit var context : Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
-        return MyHolder(LayoutInflater.from(context).inflate(R.layout.item_view, parent, false))
+        return MyHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false))
     }
-
     override fun getItemCount(): Int = spiritCameraList.size
 
 
